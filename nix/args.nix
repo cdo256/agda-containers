@@ -12,11 +12,19 @@
           overlays = [
             (final: prev: {
               agdaPackages = prev.agdaPackages // {
-                cubical = final.agdaPackages.mkDerivation {
-                  pname = "cubical";
-                  version = "flake";
+                cubical = prev.agdaPackages.cubical.overrideAttrs (old: {
+                  version = "9.0.0";
                   src = inputs.agda-cubical;
-                };
+                  sha256 = "";
+                  buildPhase = ''
+                    echo foo
+                  '';
+                });
+                agda-categories = prev.agdaPackages.agda-categories.overrideAttrs (old: {
+                  version = "9.0.0";
+                  src = inputs.agda-categories;
+                  sha256 = "";
+                });
               };
             })
           ];

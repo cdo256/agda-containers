@@ -5,10 +5,12 @@
     {
       config.packages = rec {
         agda-base = pkgs.agda;
+        agda-cubical = pkgs.agdaPackages.cubical;
+        agda-categories = pkgs.agdaPackages.agda-categories;
         agda = agda-base.withPackages (ps: [
           ps.standard-library
-          ps.cubical
-	  ps.agda-categories
+          pkgs.agdaPackages.cubical
+          pkgs.agdaPackages.agda-categories
         ]);
         just-agda = inputs.just-agda.packages.${system}.default.override {
           inherit agda;
