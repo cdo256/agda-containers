@@ -17,9 +17,9 @@
     };
     agda-cubical = {
       type = "github";
-      owner = "agda";
-      repo = "cubical";
-      ref = "master";
+      owner = "cdo256";
+      repo = "agda-cubical";
+      ref = "damato-rebase";
     };
   };
 
