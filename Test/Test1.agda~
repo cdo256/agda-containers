@@ -1,6 +1,0 @@
-module Test.Test1 where
-
-open import 
-
-data X : Type where
-  f : X

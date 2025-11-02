@@ -1,4 +1,4 @@
 name: agda-containers
-include: .
+include: src
 depend: agda-categories standard-library cubical
-flags: --cubical --guardedness
+flags: --guardedness --cubical --cubical-compatible
