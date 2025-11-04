@@ -19,7 +19,7 @@
       type = "github";
       owner = "cdo256";
       repo = "agda-cubical";
-      ref = "damato-rebase";
+      ref = "categories";
     };
     agda-categories = {
       type = "github";
