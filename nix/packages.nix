@@ -1,11 +1,13 @@
-{ inputs, ... }:
+{ self, ... }:
 {
   perSystem =
     { system, pkgs, ... }:
     {
       config.packages = rec {
         agda-base = pkgs.agda;
-        agda-local = pkgs.callPackage ./local-agda { inherit (pkgs.haskellPackages) Agda; };
+        agda-local = pkgs.callPackage ./local-agda {
+          inherit (pkgs.haskellPackages) Agda;
+        };
         agda-cubical = pkgs.agdaPackages.cubical;
         agda-categories = pkgs.agdaPackages.agda-categories;
         agda = agda-base.withPackages (ps: [
