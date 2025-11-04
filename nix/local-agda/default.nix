@@ -4,33 +4,36 @@
   stdenv,
   lib,
   Agda,
-  runCommand,
-  makeWrapper,
-  writeText,
+  writeShellScriptBin,
   nixosTests,
 }:
+
 let
   pname = "${Agda.meta.mainProgram}Local";
   version = Agda.version;
+
+  agdaBin = writeShellScriptBin "${Agda.meta.mainProgram}" ''
+    exec ${lib.getExe Agda} --library-file="''${DIRENV_DIR:1}/local-libraries" "$@"
+  '';
+
+  agdaModeBin = writeShellScriptBin "agda-mode" ''
+    exec ${lib.getExe' Agda "agda-mode"} "$@"
+  '';
+
 in
-runCommand "${pname}-${version}"
-  {
-    inherit pname version;
-    nativeBuildInputs = [ makeWrapper ];
-    passthru = {
-      unwrapped = Agda;
-      tests = {
-        inherit (nixosTests) agda;
-      };
+stdenv.mkDerivation {
+  inherit pname version;
+  passthru = {
+    unwrapped = Agda;
+    tests = {
+      inherit (nixosTests) agda;
     };
-    # Agda is a split package with multiple outputs; do not inherit them here.
-    meta = removeAttrs Agda.meta [ "outputsToInstall" ];
-  }
-  ''
+  };
+  phases = [ "installPhase" ];
+  installPhase = ''
     mkdir -p $out/bin
-    makeWrapper ${lib.getExe Agda} $out/bin/${Agda.meta.mainProgram} \
-      --add-flags "--library-file=./local-libraries"
-    if [ -e ${lib.getExe' Agda "agda-mode"} ]; then
-      ln -s ${lib.getExe' Agda "agda-mode"} $out/bin/agda-mode
-    fi
-  ''
+    cp ${agdaBin}/bin/${Agda.meta.mainProgram} $out/bin/${Agda.meta.mainProgram}
+    cp ${agdaModeBin}/bin/agda-mode $out/bin/agda-mode
+  '';
+  meta = removeAttrs Agda.meta [ "outputsToInstall" ];
+}
