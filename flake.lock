@@ -28,16 +28,16 @@
         "nixpkgs": "nixpkgs_4"
       },
       "locked": {
-        "lastModified": 1761299103,
-        "narHash": "sha256-O87SyL3TSF0Rzr/xdQU20/tMhbevDqGficZ72vnXWOM=",
+        "lastModified": 1762225131,
+        "narHash": "sha256-z/oLZV2MJ6dW+6UGYDNpUceV+9vgDozg6HzeWpaTbsY=",
         "owner": "cdo256",
         "repo": "agda-cubical",
-        "rev": "5d1d65ab330d38bbf2873c39c9d5d1598cab3f2e",
+        "rev": "2ac352816611b7e7385d9a7b184fca46c0a59de1",
         "type": "github"
       },
       "original": {
         "owner": "cdo256",
-        "ref": "damato-rebase",
+        "ref": "categories",
         "repo": "agda-cubical",
         "type": "github"
       }
@@ -380,11 +380,11 @@
     },
     "nixpkgs_6": {
       "locked": {
-        "lastModified": 1762120321,
-        "narHash": "sha256-JkIWzteiX+ORCT5LTJ06JYeDqgDBWtN1Oi5yl0evWhg=",
+        "lastModified": 1762224284,
+        "narHash": "sha256-xgSQxjOKu/efYLT3O/IuNKh36Jr1iSuulVrNErWyDeo=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "d0c803697e8d3ac3162da6b3a1f78b53259804b2",
+        "rev": "dbb70a882f7ebd6b6b0eaea62a2027cba725a29d",
         "type": "github"
       },
       "original": {
