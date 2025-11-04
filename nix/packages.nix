@@ -13,14 +13,6 @@
           pkgs.agdaPackages.cubical
           pkgs.agdaPackages.agda-categories
         ]);
-        just-agda-local = inputs.just-agda.packages.${system}.default.override {
-          agda = agda-base;
-          inherit (pkgs.emacsPackages) agda2-mode;
-        };
-        just-agda = inputs.just-agda.packages.${system}.default.override {
-          inherit agda;
-          inherit (pkgs.emacsPackages) agda2-mode;
-        };
         tex = pkgs.texlive.combine {
           inherit (pkgs.texlive)
             scheme-medium
