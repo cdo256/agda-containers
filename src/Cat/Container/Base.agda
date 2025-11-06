@@ -16,10 +16,12 @@ open import Cubical.Categories.Functor
 
 open import Cubical.Categories.NaturalTransformation.Base
 open import Cubical.Categories.NaturalTransformation.Properties
+open import Cubical.Categories.Instances.Sets
+open import Cubical.Categories.Functor.Bifunctor
 
 private
   variable
-    ℓSo ℓSh ℓSe ℓPo ℓPh ℓPe : Level
+    ℓSo ℓSh ℓP : Level
     ℓ ℓ' ℓ'' ℓ''' : Level
 
 module _ where
@@ -34,15 +36,22 @@ module _ where
       p : (x : C .ob) → N-ob (α ●ᵛ (β ●ᵛ γ)) x ≡ N-ob (α ●ᵛ β ●ᵛ γ) x
       p x = sym (D .⋆Assoc _ _ _)
 
+-- record Coend (F : Bifunctor (SET ℓ) (SET ℓ ^op) (SET ℓ)) : Set _ where
+--   _,_ : (s : S)
+--   --Functor (SET ℓ) (SET ℓ)
 
-module _ (ℓSo ℓSh ℓPo ℓPh : Level) where
-  record CConObj : Type (ℓ-suc (ℓSo ⊔ ℓSh ⊔ ℓPo ⊔ ℓPh)) where
+module _ (ℓSo ℓSh ℓP : Level) where
+  record CConObj : Type (ℓ-suc (ℓSo ⊔ ℓSh ⊔ ℓP)) where
     constructor _◁C_
     field
       S : Category ℓSo ℓSh
-      P : Functor S (CatCategory {ℓPo} {ℓPh})
+      P : Functor S (SET ℓP)
 
-  record CConHom (A B : CConObj) : Type (ℓ-suc (ℓSo ⊔ ℓSh ⊔ ℓPo ⊔ ℓPh)) where
+  data ⟦_◁_⟧ (S : Category ℓSo ℓSh) (P : Functor S (SET ℓP)) : Set _ where
+    _,_ : (s : S .Category.ob) → (f : P .Functor.F-ob s .fst → Set) → ⟦ S ◁ P ⟧
+    glue : ∀ {x y} → (g : S [ x , y ]) → {!{!x , {!f!}!} ≡ {!y , {!g ∘ f!}!}!}
+
+  record CConHom (A B : CConObj) : Type (ℓ-suc (ℓSo ⊔ ℓSh ⊔ ℓP)) where
     constructor _◁h_
     open CConObj A
     open CConObj B renaming (S to T; P to Q)
@@ -112,7 +121,7 @@ module _ (ℓSo ℓSh ℓPo ℓPh : Level) where
       p : PathP
            (λ i →
               (x : S .ob) →
-              Hom[ CatCategory , (Q ∘F F-lUnit i) .Functor.F-ob x ]
+              {!Hom[ CatCategory , (Q ∘F F-lUnit i) .Functor.F-ob x ]!}
               (P .Functor.F-ob x))
            (NatTrans.N-ob
             (pathToNatTrans F-assoc ●ᵛ (σ ∘ˡ Id) ●ᵛ pathToNatTrans F-lUnit))
