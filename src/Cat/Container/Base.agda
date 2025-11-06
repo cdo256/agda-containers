@@ -8,13 +8,14 @@ open import Cubical.Categories.Category
 -- open import Categories.2-Category
 -- open import Categories.Category.Instance.Cats
 open import Cubical.Categories.Instances.Categories
-open import Categories.Category.Monoidal.Instance.StrictCats
+-- open import Categories.Category.Monoidal.Instance.StrictCats
 open import Cubical.Categories.Functor
 -- open import Categories.Functor.Equivalence
 -- open import Categories.NaturalTransformation.Core using (NaturalTransformation) renaming (id to idN)
 -- open import Categories.NaturalTransformation.Equivalence using () renaming (_≃_ to _≈N_) 
 
 open import Cubical.Categories.NaturalTransformation.Base
+open import Cubical.Categories.NaturalTransformation.Properties
 
 private
   variable
@@ -89,10 +90,15 @@ module _ (ℓSo ℓSh ℓPo ℓPh : Level) where
         ((β ●ᵛ (ρ ∘ˡ (G ∘F F))) ●ᵛ (α ●ᵛ (τ ∘ˡ F))) ●ᵛ σ
           ≡⟨ cong (_●ᵛ σ) (sym {!●ᵛ-assoc ? ? ?!}) ⟩ -- more universe level issues
         (β ●ᵛ ((ρ ∘ˡ (G ∘F F)) ●ᵛ (α ●ᵛ (τ ∘ˡ F)))) ●ᵛ σ
+          ≡⟨ cong₂ (λ ○ □ → (β ●ᵛ (○ ●ᵛ (α ●ᵛ □))) ●ᵛ σ) (∘ˡ≡●ʰ ρ (G ∘F F)) (∘ˡ≡●ʰ τ F) ⟩
+        (β ●ᵛ ((ρ ●ʰ (idTrans (G ∘F F))) ●ᵛ (α ●ᵛ (τ ●ʰ (idTrans F))))) ●ᵛ σ
+          ≡⟨ cong₂
+              (λ ○ □ →
+                 β ●ᵛ ((ρ ●ʰ idTrans (G ∘F F)) ●ᵛ (α ●ᵛ (τ ●ʰ idTrans F))) ●ᵛ σ)
+              {!!} {!!} ⟩
+        (β ●ᵛ ((ρ ●ʰ (idTrans (G ∘F F))) ●ᵛ (α ●ᵛ (τ ●ʰ (idTrans F))))) ●ᵛ σ
           ≡⟨ {!!} ⟩
-        {!(β ●ᵛ ({!ρ ●ᵛ (idTrans (G ∘F F))!} ●ᵛ (α ●ᵛ (τ ●ᵛ (idTrans F))))) ●ᵛ σ!}
-          ≡⟨ {!!} ⟩
-        {!β ●ᵛ ρ ●ᵛ idTrans (G ∘F F) ●ᵛ α ●ᵛ τ ●ᵛ (idTrans F) ●ᵛ σ!} ∎ 
+        β ●ᵛ (ρ ●ʰ (idTrans (G ∘F F))) ●ᵛ α ●ᵛ (τ ●ʰ (idTrans F)) ●ᵛ σ ∎
       trans≡ : (λ i → NatTrans (CConObj.P D ∘F F-assoc i) (CConObj.P A))
              [ (β ●ᵛ (ρ ∘ˡ (G ∘F F))) ●ᵛ (α ●ᵛ (τ ∘ˡ F) ●ᵛ σ)
              ≡ (δ ●ᵛ ((γ ●ᵛ (ρ ∘ˡ G) ●ᵛ τ) ∘ˡ F)) ●ᵛ σ ]
